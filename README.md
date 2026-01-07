@@ -32,6 +32,17 @@ client.set_fan_mode("auto")
 client.cancel_hold()
 ```
 
+## Configuration
+
+Copy the sample config and keep it local (it contains credentials):
+
+```
+cp config.example.json config.json
+```
+
+`config.json` is ignored by git. Edit it directly for username, password, device_id,
+and defaults like hysteresis thresholds.
+
 ## CLI
 
 Use environment variables or flags to supply credentials:
@@ -54,12 +65,15 @@ python -m redlink_controller fan --mode auto
 python -m redlink_controller cancel
 ```
 
-Start the local web controller:
+### Scripted running
+
+Run the local web controller from a shell script or terminal:
 
 ```
-cp config.example.json config.json
-python -m redlink_controller server --config config.json
+python -m redlink_controller --config config.json server
 ```
+
+This starts the UI at `http://localhost:8000` (or the bind host/port in config).
 
 The server binds to `0.0.0.0:8000` by default (LAN-accessible). Open `http://localhost:8000`.
 
@@ -82,6 +96,36 @@ The web UI reads/writes `config.json` and runs a background loop that enforces h
 - Heat turns on at `heat_on_below` and resets to `heat_on_below` at `heat_off_at`.
 - Cool turns on at `cool_on_above` and resets to `cool_on_above` at `cool_off_at`.
 - The loop polls at `poll_interval_seconds` and refreshes login sessions at `login_refresh_seconds`.
+
+## macOS app
+
+This repo includes a lightweight macOS wrapper around the web UI.
+
+```
+cd mac_app
+swift run
+```
+
+To build a standalone `.app`, place your icon at `mac_app/Assets/AppIcon.png` and run:
+
+```
+cd mac_app
+./scripts/build_app.sh
+```
+
+The app auto-starts the server and loads `http://localhost:8000` by default.
+Override the URL with:
+
+```
+REDLINK_UI_URL="http://localhost:8000" swift run
+```
+
+If you launch the `.app` bundle, it uses the repo `config.json` if found, otherwise
+`~/Library/Application Support/CheesesHVACControlDeck/config.json`.
+
+Notes:
+- The `.app` is built into `mac_app/build/` and can be launched by double-clicking.
+- Keep `config.json` local; it should not be committed.
 
 
 ## Schedule scaffolding

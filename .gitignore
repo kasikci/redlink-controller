@@ -1,5 +1,17 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+.DS_Store
+*.log
+*.app
+*.dmg
+*.pkg
+*.icns
+.venv/
 config.json
+config.local.json
 config.example copy.json
+.build/
+.swiftpm/
+mac_app/build/
+mac_app/Assets/AppIcon.png

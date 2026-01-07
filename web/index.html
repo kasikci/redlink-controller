@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Redlink Controller</title>
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles.css?v=2" />
   </head>
   <body>
     <div class="bg-orbit"></div>
@@ -74,7 +74,7 @@
               </label>
             </div>
 
-            <div class="field-grid">
+            <div class="field-grid compact-fields">
               <label>
                 <span>Heat On Below</span>
                 <input id="heat-on" type="number" step="0.5" />
@@ -93,7 +93,7 @@
               </label>
             </div>
 
-            <div class="field-grid">
+            <div class="field-grid compact-fields">
               <label>
                 <span>Hold Minutes</span>
                 <input id="hold-minutes" type="number" />
@@ -102,52 +102,11 @@
                 <span>Poll Interval (sec)</span>
                 <input id="poll-interval" type="number" />
               </label>
-              <label>
-                <span>Login Refresh (sec)</span>
-                <input id="login-refresh" type="number" />
-              </label>
-            </div>
-
-            <div class="field-grid">
-              <label>
-                <span>Username</span>
-                <input id="username" type="email" />
-              </label>
-              <label>
-                <span>Password</span>
-                <input id="password" type="password" placeholder="Leave blank to keep" />
-              </label>
-              <label>
-                <span>Device ID</span>
-                <input id="device-id" type="number" />
-              </label>
-              <label>
-                <span>Base URL</span>
-                <input id="base-url" type="text" />
-              </label>
-            </div>
-
-            <div class="field-grid">
-              <label>
-                <span>Bind Host</span>
-                <input id="bind-host" type="text" />
-              </label>
-              <label>
-                <span>Bind Port</span>
-                <input id="bind-port" type="number" />
-              </label>
-              <label>
-                <span>Timeout (sec)</span>
-                <input id="timeout" type="number" />
-              </label>
-              <label>
-                <span>Time Offset (min)</span>
-                <input id="time-offset" type="number" />
-              </label>
             </div>
 
             <button class="btn">Save Settings</button>
           </form>
+
         </section>
 
         <section class="card">
@@ -155,7 +114,7 @@
             <h2>Manual Control</h2>
             <span class="pill accent">Override</span>
           </div>
-          <div class="manual-grid">
+          <div class="manual-grid manual-rows">
             <div class="panel">
               <h3>Heat Hold</h3>
               <label>
@@ -189,14 +148,16 @@
                   <option value="on">On</option>
                 </select>
               </label>
-              <button id="manual-fan" class="btn ghost">Set Fan</button>
-              <button id="manual-cancel" class="btn danger">Cancel Hold</button>
+              <div class="fan-actions">
+                <button id="manual-fan" class="btn ghost">Set Fan</button>
+                <button id="manual-cancel" class="btn danger">Cancel Hold</button>
+              </div>
             </div>
           </div>
         </section>
       </main>
     </div>
 
-    <script src="/app.js"></script>
+    <script src="/app.js?v=2"></script>
   </body>
 </html>

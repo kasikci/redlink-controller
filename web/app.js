@@ -55,6 +55,25 @@ function formatMaybe(value, suffix = "") {
   return `${value}${suffix}`;
 }
 
+function formatHoldUntil(value) {
+  if (value === null || value === undefined || value === "") {
+    return "--";
+  }
+  if (typeof value === "string" && value.includes(":")) {
+    return value;
+  }
+  const totalMinutes = Number(value);
+  if (!Number.isFinite(totalMinutes)) {
+    return String(value);
+  }
+  const minutes = Math.max(0, Math.round(totalMinutes)) % (24 * 60);
+  const hours24 = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  const suffix = hours24 >= 12 ? "PM" : "AM";
+  const hours12 = ((hours24 + 11) % 12) + 1;
+  return `${hours12}:${String(mins).padStart(2, "0")} ${suffix}`;
+}
+
 function renderSnapshot(snapshot) {
   if (!snapshot) {
     return;
@@ -64,7 +83,7 @@ function renderSnapshot(snapshot) {
   const config = snapshot.config || {};
 
   setText("temperature", formatTemp(status.temperature));
-  setText("hold-until", formatMaybe(status.hold_until));
+  setText("hold-until", formatHoldUntil(status.hold_until));
   setText(
     "setpoints",
     `${formatMaybe(status.heat_setpoint)} / ${formatMaybe(status.cool_setpoint)}`
@@ -99,16 +118,6 @@ function fillConfig(config) {
   document.getElementById("hold-minutes").value = config.hold_minutes ?? "";
   document.getElementById("poll-interval").value =
     config.poll_interval_seconds ?? "";
-  document.getElementById("login-refresh").value =
-    config.login_refresh_seconds ?? "";
-  document.getElementById("username").value = config.username ?? "";
-  document.getElementById("device-id").value = config.device_id ?? "";
-  document.getElementById("base-url").value = config.base_url ?? "";
-  document.getElementById("bind-host").value = config.bind_host ?? "";
-  document.getElementById("bind-port").value = config.bind_port ?? "";
-  document.getElementById("timeout").value = config.timeout_seconds ?? "";
-  document.getElementById("time-offset").value =
-    config.time_offset_minutes ?? "";
 
   const configPill = document.getElementById("config-status");
   if (config.has_password) {
@@ -131,24 +140,7 @@ function collectConfig() {
     cool_off_at: numberValue("cool-off"),
     hold_minutes: numberValue("hold-minutes"),
     poll_interval_seconds: numberValue("poll-interval"),
-    login_refresh_seconds: numberValue("login-refresh"),
-    username: stringValue("username"),
-    device_id: numberValue("device-id"),
-    base_url: stringValue("base-url"),
-    bind_host: stringValue("bind-host"),
-    bind_port: numberValue("bind-port"),
-    timeout_seconds: numberValue("timeout"),
   };
-
-  const timeOffset = stringValue("time-offset");
-  if (timeOffset !== "") {
-    payload.time_offset_minutes = Number(timeOffset);
-  }
-
-  const password = stringValue("password");
-  if (password) {
-    payload.password = password;
-  }
 
   return payload;
 }

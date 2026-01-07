@@ -117,7 +117,7 @@ h1 {
 
 @media (min-width: 900px) {
   .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.5fr);
   }
   .status-card {
     grid-column: span 2;
@@ -233,10 +233,22 @@ h1 {
   gap: 16px;
 }
 
+
 .field-row {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.compact-fields input,
+.compact-fields select {
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+.compact-fields label {
+  gap: 4px;
+  font-size: 13px;
 }
 
 .field-grid {
@@ -259,11 +271,14 @@ label {
 
 input,
 select {
-  padding: 10px 12px;
+  padding: clamp(8px, 1.2vw, 10px) clamp(10px, 1.6vw, 12px);
   border-radius: 12px;
   border: 1px solid rgba(22, 43, 47, 0.12);
   font-family: inherit;
-  font-size: 14px;
+  font-size: clamp(12px, 1.2vw, 14px);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 input[type="checkbox"] {
@@ -302,6 +317,29 @@ input[type="checkbox"] {
 .manual-grid {
   display: grid;
   gap: 16px;
+}
+
+.fan-actions {
+  display: grid;
+  gap: 10px;
+}
+
+@media (min-width: 900px) {
+  .manual-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .panel-wide {
+    grid-column: span 2;
+  }
+
+  .fan-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .manual-rows {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .panel {

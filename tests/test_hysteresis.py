@@ -29,6 +29,22 @@ def test_heat_idles_without_state_when_setpoint_matches() -> None:
     assert action.setpoint == 68.0
 
 
+def test_heat_idles_when_setpoint_is_higher_than_threshold() -> None:
+    config = AppConfig(heat_on_below=68.0, heat_off_at=71.0, cool_on_above=76.0, cool_off_at=74.0)
+    state = ControllerState(mode=None)
+    action = decide_action(73.0, config, state, heat_setpoint=73.0)
+    assert action is not None
+    assert action.kind == "heat-idle"
+    assert action.setpoint == 68.0
+
+
+def test_heat_idle_noop_when_already_at_idle_setpoint() -> None:
+    config = AppConfig(heat_on_below=68.0, heat_off_at=71.0, cool_on_above=76.0, cool_off_at=74.0)
+    state = ControllerState(mode=None)
+    action = decide_action(73.0, config, state, heat_setpoint=68.0, cool_setpoint=76.0)
+    assert action is None
+
+
 def test_cool_starts_when_above_threshold() -> None:
     config = AppConfig(heat_on_below=68.0, heat_off_at=71.0, cool_on_above=76.0, cool_off_at=74.0)
     state = ControllerState(mode=None)
@@ -41,7 +57,7 @@ def test_cool_starts_when_above_threshold() -> None:
 def test_cool_idles_when_at_target() -> None:
     config = AppConfig(heat_on_below=68.0, heat_off_at=71.0, cool_on_above=76.0, cool_off_at=74.0)
     state = ControllerState(mode="cool")
-    action = decide_action(74.0, config, state)
+    action = decide_action(74.0, config, state, heat_setpoint=68.0)
     assert action is not None
     assert action.kind == "cool-idle"
     assert action.setpoint == 76.0
@@ -50,10 +66,26 @@ def test_cool_idles_when_at_target() -> None:
 def test_cool_idles_without_state_when_setpoint_matches() -> None:
     config = AppConfig(heat_on_below=68.0, heat_off_at=71.0, cool_on_above=76.0, cool_off_at=74.0)
     state = ControllerState(mode=None)
-    action = decide_action(74.0, config, state, cool_setpoint=74.0)
+    action = decide_action(74.0, config, state, heat_setpoint=68.0, cool_setpoint=74.0)
     assert action is not None
     assert action.kind == "cool-idle"
     assert action.setpoint == 76.0
+
+
+def test_cool_idle_noop_when_already_at_idle_setpoint() -> None:
+    config = AppConfig(heat_on_below=68.0, heat_off_at=71.0, cool_on_above=76.0, cool_off_at=74.0)
+    state = ControllerState(mode=None)
+    action = decide_action(72.0, config, state, heat_setpoint=68.0, cool_setpoint=76.0)
+    assert action is None
+
+
+def test_heat_idles_when_mode_stale_and_setpoint_active() -> None:
+    config = AppConfig(heat_on_below=68.0, heat_off_at=71.0, cool_on_above=76.0, cool_off_at=74.0)
+    state = ControllerState(mode="cool")
+    action = decide_action(73.0, config, state, heat_setpoint=71.0, cool_setpoint=73.0)
+    assert action is not None
+    assert action.kind == "heat-idle"
+    assert action.setpoint == 68.0
 
 
 def test_hysteresis_disabled_no_action() -> None:
