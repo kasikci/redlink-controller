@@ -1,0 +1,363 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		595D8F7AB010410285F1A3AE /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D94790BEF1440F8D5ACD35 /* AppSettings.swift */; };
+		D9624504C26D49799C54F830 /* ConnectionMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14846F7E63D84C698DAE1F79 /* ConnectionMonitor.swift */; };
+		2E6E5F558C0E415BB86FF726 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF2FA7D2FAA455AB58ACF91 /* WebView.swift */; };
+		666E9F1D91D04E07824E9709 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD379E687BA43E3B1003FC1 /* ContentView.swift */; };
+		A038C1B8DFAB43C193BB359F /* CheesesHVACControlDeckiOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566606F1CC7746098C9C4275 /* CheesesHVACControlDeckiOSApp.swift */; };
+		B0F37A41B8044B928358259C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E9C88AEFC3F4E17B4F73500 /* LaunchScreen.storyboard */; };
+		B36F128D141B446C933F25A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE9368384A014D28BC84B135 /* Assets.xcassets */; };
+		9DAFF31F068441FD89ADCC6A /* CheesesHVACControlDeckiOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DB3715B1AA4C4CBA68FDE6 /* CheesesHVACControlDeckiOSTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		21BA02B3456343E9A8561CF3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 217714709DB649E69DAC77AB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4ABC684173D94668B7E19524;
+			remoteInfo = CheesesHVACControlDeckiOS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		19D94790BEF1440F8D5ACD35 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		14846F7E63D84C698DAE1F79 /* ConnectionMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionMonitor.swift; sourceTree = "<group>"; };
+		2BF2FA7D2FAA455AB58ACF91 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		9DD379E687BA43E3B1003FC1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		566606F1CC7746098C9C4275 /* CheesesHVACControlDeckiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheesesHVACControlDeckiOSApp.swift; sourceTree = "<group>"; };
+		DE9368384A014D28BC84B135 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FD18790696CE4574B03B7F78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7E9C88AEFC3F4E17B4F73500 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		77DB3715B1AA4C4CBA68FDE6 /* CheesesHVACControlDeckiOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheesesHVACControlDeckiOSTests.swift; sourceTree = "<group>"; };
+		4A470CAFF2E54175950AD751 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		425F19BDF46C46C7A5591D22 /* CheesesHVACControlDeckiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = CheesesHVACControlDeckiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB318CF6E5864AD4A325C9F0 /* CheesesHVACControlDeckiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = CheesesHVACControlDeckiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6F941AED89664987951CB2E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9A0009B469FE4C5EA0F1D0CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8F0831D9EC7A4C71BD305C7C = {
+			isa = PBXGroup;
+			children = (
+				869C00E7F28248F79F41819E /* CheesesHVACControlDeckiOS */,
+				162836D15A074E8FACF895A5 /* CheesesHVACControlDeckiOSTests */,
+				705008DEBB2F40DFB58DEB40 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		869C00E7F28248F79F41819E /* CheesesHVACControlDeckiOS */ = {
+			isa = PBXGroup;
+			children = (
+				566606F1CC7746098C9C4275 /* CheesesHVACControlDeckiOSApp.swift */,
+				9DD379E687BA43E3B1003FC1 /* ContentView.swift */,
+				19D94790BEF1440F8D5ACD35 /* AppSettings.swift */,
+				14846F7E63D84C698DAE1F79 /* ConnectionMonitor.swift */,
+				2BF2FA7D2FAA455AB58ACF91 /* WebView.swift */,
+				DE9368384A014D28BC84B135 /* Assets.xcassets */,
+				7E9C88AEFC3F4E17B4F73500 /* LaunchScreen.storyboard */,
+				FD18790696CE4574B03B7F78 /* Info.plist */,
+			);
+			path = CheesesHVACControlDeckiOS;
+			sourceTree = "<group>";
+		};
+		162836D15A074E8FACF895A5 /* CheesesHVACControlDeckiOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				77DB3715B1AA4C4CBA68FDE6 /* CheesesHVACControlDeckiOSTests.swift */,
+				4A470CAFF2E54175950AD751 /* Info.plist */,
+			);
+			path = CheesesHVACControlDeckiOSTests;
+			sourceTree = "<group>";
+		};
+		705008DEBB2F40DFB58DEB40 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				425F19BDF46C46C7A5591D22 /* CheesesHVACControlDeckiOS.app */,
+				FB318CF6E5864AD4A325C9F0 /* CheesesHVACControlDeckiOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4ABC684173D94668B7E19524 /* CheesesHVACControlDeckiOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1C2A6E8DBA1D4BCF9014DC46 /* Build configuration list for PBXNativeTarget "CheesesHVACControlDeckiOS" */;
+			buildPhases = (
+				417450F0B2E943628AD66094 /* Sources */,
+				ADB1B6D4A77E4747BB283E07 /* Resources */,
+				6F941AED89664987951CB2E9 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CheesesHVACControlDeckiOS;
+			productName = CheesesHVACControlDeckiOS;
+			productReference = 425F19BDF46C46C7A5591D22 /* CheesesHVACControlDeckiOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		20E359C285DD4466BC0E3F54 /* CheesesHVACControlDeckiOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8E9DC07880404A1B93F612DB /* Build configuration list for PBXNativeTarget "CheesesHVACControlDeckiOSTests" */;
+			buildPhases = (
+				8120B6D8C3D545AAA509FF27 /* Sources */,
+				5C80C41C1DCF4F06ABD07819 /* Resources */,
+				9A0009B469FE4C5EA0F1D0CF /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2240F5CDD7CB4CE785F57768 /* PBXTargetDependency */,
+			);
+			name = CheesesHVACControlDeckiOSTests;
+			productName = CheesesHVACControlDeckiOSTests;
+			productReference = FB318CF6E5864AD4A325C9F0 /* CheesesHVACControlDeckiOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		217714709DB649E69DAC77AB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					4ABC684173D94668B7E19524 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					20E359C285DD4466BC0E3F54 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = 4ABC684173D94668B7E19524;
+					};
+				};
+			};
+			buildConfigurationList = 4970C328C3B24B41B6770D41 /* Build configuration list for PBXProject "CheesesHVACControlDeckiOS" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8F0831D9EC7A4C71BD305C7C;
+			productRefGroup = 705008DEBB2F40DFB58DEB40 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4ABC684173D94668B7E19524 /* CheesesHVACControlDeckiOS */,
+				20E359C285DD4466BC0E3F54 /* CheesesHVACControlDeckiOSTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		ADB1B6D4A77E4747BB283E07 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B36F128D141B446C933F25A8 /* Assets.xcassets in Resources */,
+				B0F37A41B8044B928358259C /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C80C41C1DCF4F06ABD07819 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		417450F0B2E943628AD66094 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				595D8F7AB010410285F1A3AE /* AppSettings.swift in Sources */,
+				D9624504C26D49799C54F830 /* ConnectionMonitor.swift in Sources */,
+				2E6E5F558C0E415BB86FF726 /* WebView.swift in Sources */,
+				666E9F1D91D04E07824E9709 /* ContentView.swift in Sources */,
+				A038C1B8DFAB43C193BB359F /* CheesesHVACControlDeckiOSApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8120B6D8C3D545AAA509FF27 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9DAFF31F068441FD89ADCC6A /* CheesesHVACControlDeckiOSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2240F5CDD7CB4CE785F57768 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4ABC684173D94668B7E19524 /* CheesesHVACControlDeckiOS */;
+			targetProxy = 21BA02B3456343E9A8561CF3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D75B2021741146089D4F1E63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F1D7ACED127B4B3CABDDC18B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		5C6DA5AFB3914CFA8D8D6E7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CheesesHVACControlDeckiOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cheeses.hvaccontroldeck.ios;
+				PRODUCT_NAME = CheesesHVACControlDeckiOS;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		0DEA0D77A928490B94B46D30 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CheesesHVACControlDeckiOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cheeses.hvaccontroldeck.ios;
+				PRODUCT_NAME = CheesesHVACControlDeckiOS;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		D00F010A243441F2A9DB8584 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = CheesesHVACControlDeckiOSTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cheeses.hvaccontroldeck.ios.tests;
+				PRODUCT_NAME = CheesesHVACControlDeckiOSTests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CheesesHVACControlDeckiOS.app/CheesesHVACControlDeckiOS";
+			};
+			name = Debug;
+		};
+		D6F29123BA7447348E3639DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = CheesesHVACControlDeckiOSTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cheeses.hvaccontroldeck.ios.tests;
+				PRODUCT_NAME = CheesesHVACControlDeckiOSTests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CheesesHVACControlDeckiOS.app/CheesesHVACControlDeckiOS";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4970C328C3B24B41B6770D41 /* Build configuration list for PBXProject "CheesesHVACControlDeckiOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D75B2021741146089D4F1E63 /* Debug */,
+				F1D7ACED127B4B3CABDDC18B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1C2A6E8DBA1D4BCF9014DC46 /* Build configuration list for PBXNativeTarget "CheesesHVACControlDeckiOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C6DA5AFB3914CFA8D8D6E7C /* Debug */,
+				0DEA0D77A928490B94B46D30 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8E9DC07880404A1B93F612DB /* Build configuration list for PBXNativeTarget "CheesesHVACControlDeckiOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D00F010A243441F2A9DB8584 /* Debug */,
+				D6F29123BA7447348E3639DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 217714709DB649E69DAC77AB /* Project object */;
+}

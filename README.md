@@ -127,6 +127,21 @@ Notes:
 - The `.app` is built into `mac_app/build/` and can be launched by double-clicking.
 - Keep `config.json` local; it should not be committed.
 
+## iOS app
+
+This repo includes a lightweight iPhone wrapper around the web UI. The iOS app
+connects to a running Redlink server on your LAN (it does not start the server
+itself).
+
+Project location:
+
+```
+ios_app/CheesesHVACControlDeckiOS.xcodeproj
+```
+
+Open the project in Xcode, run the server on your Mac, and set the server URL
+in the app (gear icon). See `ios_app/README.md` for step-by-step instructions.
+
 
 ## Schedule scaffolding
 
