@@ -59,6 +59,17 @@ REDLINK_SERVER_CWD="/path/to/repo"
 REDLINK_LOG_PATH="/path/to/server.log"
 ```
 
+## Connect to a remote server
+
+To use the macOS app as a client for a server running on another machine, launch
+the app with `REDLINK_UI_URL` pointing at the server's LAN IP.
+
+```
+REDLINK_UI_URL="http://192.168.1.42:8000" open "mac_app/build/Cheeses HVAC Control Deck.app"
+```
+
+If the server is reachable, the app will connect without starting a local server.
+
 ## Logs
 
 The default log path is:

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Redlink Controller</title>
-    <link rel="stylesheet" href="/styles.css?v=2" />
+    <link rel="stylesheet" href="/styles.css?v=4" />
   </head>
   <body>
     <div class="bg-orbit"></div>
@@ -50,20 +50,31 @@
               <p id="service-status" class="value">--</p>
             </div>
           </div>
+          <div class="divider"></div>
+          <div class="mode-row">
+            <p class="label">Control Mode</p>
+            <div class="mode-toggle" role="group" aria-label="Control mode">
+              <button id="mode-hysteresis" class="toggle-btn" type="button">
+                Hysteresis
+              </button>
+              <button id="mode-schedule" class="toggle-btn" type="button">
+                Schedule
+              </button>
+            </div>
+          </div>
+          <p id="schedule-note" class="hint" hidden>
+            Schedule mode follows the thermostat schedule and disables hysteresis settings.
+          </p>
           <div id="error-banner" class="error" hidden></div>
         </section>
 
-        <section class="card">
+        <section class="card" id="hysteresis-card">
           <div class="card-header">
             <h2>Hysteresis Settings</h2>
             <span id="config-status" class="pill neutral">Config</span>
           </div>
           <form id="config-form" class="form">
             <div class="field-row">
-              <label>
-                <span>Enable Hysteresis</span>
-                <input id="hysteresis-enabled" type="checkbox" />
-              </label>
               <label>
                 <span>Enable Heat</span>
                 <input id="enable-heat" type="checkbox" />
@@ -109,7 +120,7 @@
 
         </section>
 
-        <section class="card">
+        <section class="card" id="manual-card">
           <div class="card-header">
             <h2>Manual Control</h2>
             <span class="pill accent">Override</span>
@@ -158,6 +169,6 @@
       </main>
     </div>
 
-    <script src="/app.js?v=2"></script>
+    <script src="/app.js?v=4"></script>
   </body>
 </html>

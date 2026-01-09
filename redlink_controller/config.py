@@ -10,9 +10,11 @@ class AppConfig:
     username: str = ""
     password: str = ""
     device_id: int = 0
+    control_mode: str = "hysteresis"
     hysteresis_enabled: bool = True
     enable_heat: bool = True
     enable_cool: bool = True
+    override_schedule: bool = False
     heat_on_below: float = 68.0
     heat_off_at: float = 71.0
     cool_on_above: float = 76.0
@@ -63,13 +65,19 @@ def ensure_config(path: str) -> AppConfig:
 
 
 def config_from_dict(data: Dict[str, Any]) -> AppConfig:
+    hysteresis_enabled = _coerce_bool(data.get("hysteresis_enabled"), default=True)
+    control_mode = _coerce_control_mode(data.get("control_mode"))
+    if not control_mode:
+        control_mode = "hysteresis" if hysteresis_enabled else "schedule"
     return AppConfig(
         username=_coerce_str(data.get("username")),
         password=_coerce_str(data.get("password")),
         device_id=_coerce_int(data.get("device_id"), default=0),
-        hysteresis_enabled=_coerce_bool(data.get("hysteresis_enabled"), default=True),
+        control_mode=control_mode,
+        hysteresis_enabled=hysteresis_enabled,
         enable_heat=_coerce_bool(data.get("enable_heat"), default=True),
         enable_cool=_coerce_bool(data.get("enable_cool"), default=True),
+        override_schedule=_coerce_bool(data.get("override_schedule"), default=False),
         heat_on_below=_coerce_float(data.get("heat_on_below"), default=68.0),
         heat_off_at=_coerce_float(data.get("heat_off_at"), default=71.0),
         cool_on_above=_coerce_float(data.get("cool_on_above"), default=76.0),
@@ -87,6 +95,8 @@ def config_from_dict(data: Dict[str, Any]) -> AppConfig:
 
 def validate_config(config: AppConfig) -> list[str]:
     errors = []
+    if config.control_mode not in ("hysteresis", "schedule"):
+        errors.append("control_mode must be 'hysteresis' or 'schedule'")
     if config.heat_on_below >= config.heat_off_at:
         errors.append("heat_on_below must be less than heat_off_at")
     if config.cool_on_above <= config.cool_off_at:
@@ -147,3 +157,9 @@ def _coerce_bool(value: Any, default: bool) -> bool:
         if normalized in ("false", "0", "no", "off"):
             return False
     return bool(value)
+
+
+def _coerce_control_mode(value: Any) -> str:
+    if value is None or value == "":
+        return ""
+    return str(value).strip().lower()

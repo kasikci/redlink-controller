@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -6,6 +7,8 @@ from fastapi.staticfiles import StaticFiles
 
 from .config import DEFAULT_CONFIG_PATH, ensure_config, update_config
 from .service import HysteresisService
+
+logger = logging.getLogger(__name__)
 
 
 def create_app(config_path: str) -> FastAPI:
@@ -42,6 +45,21 @@ def create_app(config_path: str) -> FastAPI:
         if not isinstance(payload, dict):
             raise HTTPException(status_code=400, detail="config payload must be JSON object")
         updated = update_config(config_path, payload)
+        logger.info(
+            "Config updated via API: control_mode=%s "
+            "enable_heat=%s enable_cool=%s heat_on_below=%s "
+            "heat_off_at=%s cool_on_above=%s cool_off_at=%s hold_minutes=%s "
+            "poll_interval_seconds=%s",
+            updated.control_mode,
+            updated.enable_heat,
+            updated.enable_cool,
+            updated.heat_on_below,
+            updated.heat_off_at,
+            updated.cool_on_above,
+            updated.cool_off_at,
+            updated.hold_minutes,
+            updated.poll_interval_seconds,
+        )
         return updated.to_public_dict()
 
     @app.post("/api/command")
@@ -77,6 +95,7 @@ def run_server(
 ) -> None:
     import uvicorn
 
+    _configure_logging()
     path = config_path or DEFAULT_CONFIG_PATH
     config = ensure_config(path)
     bind_host = host or config.bind_host
@@ -84,3 +103,13 @@ def run_server(
 
     app = create_app(path)
     uvicorn.run(app, host=bind_host, port=bind_port)
+
+
+def _configure_logging() -> None:
+    root = logging.getLogger()
+    if not root.handlers:
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+        )
+    logging.getLogger("redlink_controller").setLevel(logging.INFO)

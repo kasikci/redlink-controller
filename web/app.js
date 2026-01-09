@@ -1,6 +1,10 @@
 const configForm = document.getElementById("config-form");
 const errorBanner = document.getElementById("error-banner");
 const statusPill = document.getElementById("status-pill");
+const modeHysteresisButton = document.getElementById("mode-hysteresis");
+const modeScheduleButton = document.getElementById("mode-schedule");
+
+let currentControlMode = "hysteresis";
 
 async function apiGet(path) {
   const response = await fetch(path);
@@ -107,8 +111,9 @@ function fillConfig(config) {
   if (!config) {
     return;
   }
-  document.getElementById("hysteresis-enabled").checked =
-    config.hysteresis_enabled ?? true;
+  const controlMode = config.control_mode || "hysteresis";
+  currentControlMode = controlMode;
+  applyControlModeUi(controlMode);
   document.getElementById("enable-heat").checked = config.enable_heat ?? true;
   document.getElementById("enable-cool").checked = config.enable_cool ?? true;
   document.getElementById("heat-on").value = config.heat_on_below ?? "";
@@ -131,7 +136,6 @@ function fillConfig(config) {
 
 function collectConfig() {
   const payload = {
-    hysteresis_enabled: document.getElementById("hysteresis-enabled").checked,
     enable_heat: document.getElementById("enable-heat").checked,
     enable_cool: document.getElementById("enable-cool").checked,
     heat_on_below: numberValue("heat-on"),
@@ -143,6 +147,46 @@ function collectConfig() {
   };
 
   return payload;
+}
+
+function applyControlModeUi(mode) {
+  const hysteresisActive = mode === "hysteresis";
+  if (modeHysteresisButton) {
+    modeHysteresisButton.classList.toggle("active", hysteresisActive);
+    modeHysteresisButton.setAttribute("aria-pressed", String(hysteresisActive));
+  }
+  if (modeScheduleButton) {
+    modeScheduleButton.classList.toggle("active", !hysteresisActive);
+    modeScheduleButton.setAttribute("aria-pressed", String(!hysteresisActive));
+  }
+  const hysteresisCard = document.getElementById("hysteresis-card");
+  if (hysteresisCard) {
+    hysteresisCard.hidden = !hysteresisActive;
+  }
+  const manualCard = document.getElementById("manual-card");
+  if (manualCard) {
+    manualCard.classList.toggle("full-span", !hysteresisActive);
+  }
+  const scheduleNote = document.getElementById("schedule-note");
+  if (scheduleNote) {
+    scheduleNote.hidden = hysteresisActive;
+  }
+}
+
+async function setControlMode(mode) {
+  if (!mode || mode === currentControlMode) {
+    return;
+  }
+  currentControlMode = mode;
+  applyControlModeUi(mode);
+  try {
+    const updated = await apiPost("/api/config", { control_mode: mode });
+    fillConfig(updated);
+    await refreshStatus();
+  } catch (error) {
+    updateError(error.message || "Failed to set control mode");
+    await refreshConfig();
+  }
 }
 
 function numberValue(id) {
@@ -192,14 +236,28 @@ function bindEvents() {
     event.preventDefault();
     try {
       const payload = collectConfig();
-      await apiPost("/api/config", payload);
-      document.getElementById("password").value = "";
-      await refreshConfig();
+      const updated = await apiPost("/api/config", payload);
+      const passwordField = document.getElementById("password");
+      if (passwordField) {
+        passwordField.value = "";
+      }
+      fillConfig(updated);
       await refreshStatus();
     } catch (error) {
       updateError(error.message || "Failed to save config");
     }
   });
+
+  if (modeHysteresisButton) {
+    modeHysteresisButton.addEventListener("click", async () => {
+      await setControlMode("hysteresis");
+    });
+  }
+  if (modeScheduleButton) {
+    modeScheduleButton.addEventListener("click", async () => {
+      await setControlMode("schedule");
+    });
+  }
 
   document.getElementById("manual-heat").addEventListener("click", async () => {
     try {

@@ -25,7 +25,7 @@ def decide_action(
 ) -> Optional[HysteresisAction]:
     if temperature is None:
         return None
-    if not config.hysteresis_enabled:
+    if config.control_mode == "schedule":
         return None
 
     if config.enable_heat and temperature <= config.heat_on_below:
@@ -49,6 +49,12 @@ def decide_action(
         return HysteresisAction(kind="cancel")
     if mode == "cool" and not config.enable_cool:
         return HysteresisAction(kind="cancel")
+
+    override_action = _decide_hold_override_action(
+        temperature, config, state, heat_setpoint, cool_setpoint
+    )
+    if override_action:
+        return override_action
 
     return None
 
@@ -75,6 +81,70 @@ def _resolve_mode(
         return None
 
     return state.mode
+
+
+def _decide_hold_override_action(
+    temperature: Optional[float],
+    config: AppConfig,
+    state: ControllerState,
+    heat_setpoint: Optional[float],
+    cool_setpoint: Optional[float],
+) -> Optional[HysteresisAction]:
+    if config.control_mode != "hysteresis":
+        return None
+
+    if state.last_action in ("heat", "heat-idle"):
+        expected = (
+            config.heat_off_at
+            if state.last_action == "heat"
+            else config.heat_on_below
+        )
+        if heat_setpoint != expected:
+            return HysteresisAction(kind=state.last_action, setpoint=expected)
+
+    if state.last_action in ("cool", "cool-idle"):
+        expected = (
+            config.cool_off_at
+            if state.last_action == "cool"
+            else config.cool_on_above
+        )
+        if cool_setpoint != expected:
+            return HysteresisAction(kind=state.last_action, setpoint=expected)
+
+    if state.mode == "heat" and heat_setpoint != config.heat_off_at:
+        return HysteresisAction(kind="heat", setpoint=config.heat_off_at)
+
+    if state.mode == "cool" and cool_setpoint != config.cool_off_at:
+        return HysteresisAction(kind="cool", setpoint=config.cool_off_at)
+
+    if temperature is None:
+        return None
+
+    if config.enable_heat and not config.enable_cool:
+        if heat_setpoint != config.heat_on_below:
+            return HysteresisAction(kind="heat-idle", setpoint=config.heat_on_below)
+        return None
+
+    if config.enable_cool and not config.enable_heat:
+        if cool_setpoint != config.cool_on_above:
+            return HysteresisAction(kind="cool-idle", setpoint=config.cool_on_above)
+        return None
+
+    if config.enable_heat and config.enable_cool:
+        heat_delta = abs(temperature - config.heat_on_below)
+        cool_delta = abs(temperature - config.cool_on_above)
+        if heat_delta <= cool_delta:
+            if heat_setpoint != config.heat_on_below:
+                return HysteresisAction(
+                    kind="heat-idle", setpoint=config.heat_on_below
+                )
+        else:
+            if cool_setpoint != config.cool_on_above:
+                return HysteresisAction(
+                    kind="cool-idle", setpoint=config.cool_on_above
+                )
+
+    return None
 
 
 def apply_action(state: ControllerState, action: Optional[HysteresisAction]) -> None:

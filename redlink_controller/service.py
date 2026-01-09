@@ -3,11 +3,15 @@ import time
 from dataclasses import asdict
 from typing import Any, Dict, Optional
 
+import logging
+
 from .client import RedlinkClient
 from .config import AppConfig, ensure_config, load_config, validate_config
 from .exceptions import LoginError, RequestError
 from .hysteresis import ControllerState, HysteresisAction, apply_action, decide_action
 from .models import ThermostatStatus
+
+logger = logging.getLogger(__name__)
 
 
 class HysteresisService:
@@ -29,6 +33,21 @@ class HysteresisService:
         ensure_config(self._config_path)
         try:
             self._load_config()
+            if self._config:
+                logger.info(
+                    "Loaded config: control_mode=%s "
+                    "enable_heat=%s enable_cool=%s heat_on_below=%s heat_off_at=%s "
+                    "cool_on_above=%s cool_off_at=%s hold_minutes=%s poll_interval_seconds=%s",
+                    self._config.control_mode,
+                    self._config.enable_heat,
+                    self._config.enable_cool,
+                    self._config.heat_on_below,
+                    self._config.heat_off_at,
+                    self._config.cool_on_above,
+                    self._config.cool_off_at,
+                    self._config.hold_minutes,
+                    self._config.poll_interval_seconds,
+                )
         except Exception as exc:
             self._set_error(str(exc))
         self._thread = threading.Thread(target=self._run, daemon=True)
@@ -84,6 +103,7 @@ class HysteresisService:
 
         self._login_if_needed(config)
 
+        logger.info("Manual command: %s payload=%s", command, _sanitize_payload(payload))
         if command == "heat":
             setpoint = int(payload["setpoint"])
             hold_minutes = payload.get("hold_minutes")
@@ -137,12 +157,39 @@ class HysteresisService:
                     continue
 
                 status = self._fetch_status(config)
+                logger.info(
+                    "Status: temp=%s heat_setpoint=%s cool_setpoint=%s hold_until=%s "
+                    "status_heat=%s status_cool=%s mode=%s control_mode=%s",
+                    status.temperature,
+                    status.heat_setpoint,
+                    status.cool_setpoint,
+                    status.hold_until,
+                    status.status_heat,
+                    status.status_cool,
+                    self._state.mode,
+                    config.control_mode,
+                )
+                if config.control_mode == "schedule":
+                    if _is_hold_active(status):
+                        logger.info("Schedule mode: hold active, cancelling")
+                        self._apply_action(config, HysteresisAction(kind="cancel"))
+                    self._update_status(status)
+                    self._set_error(None)
+                    self._sleep(config.poll_interval_seconds)
+                    continue
                 action = decide_action(status.temperature, config, self._state, status.heat_setpoint, status.cool_setpoint)
                 if action:
+                    logger.info(
+                        "Action: %s setpoint=%s hold_minutes=%s",
+                        action.kind,
+                        action.setpoint,
+                        config.hold_minutes,
+                    )
                     self._apply_action(config, action)
                 self._update_status(status)
                 self._set_error(None)
             except Exception as exc:  # pragma: no cover - safety net
+                logger.exception("Service loop error")
                 self._set_error(str(exc))
 
             self._sleep((self._config or AppConfig()).poll_interval_seconds)
@@ -184,10 +231,12 @@ class HysteresisService:
         if self._last_login_at is None:
             self._client.login()
             self._last_login_at = now
+            logger.info("Logged in to Redlink portal")
             return
         if now - self._last_login_at >= config.login_refresh_seconds:
             self._client.login()
             self._last_login_at = now
+            logger.info("Refreshed Redlink session")
 
     def _fetch_status(self, config: AppConfig) -> ThermostatStatus:
         if not self._client:
@@ -241,3 +290,17 @@ class HysteresisService:
     def _set_error(self, message: Optional[str]) -> None:
         with self._lock:
             self._last_error = message
+
+
+def _sanitize_payload(payload: Dict[str, Any]) -> Dict[str, Any]:
+    return dict(payload)
+
+
+def _is_hold_active(status: ThermostatStatus) -> bool:
+    if status.hold_until not in (None, "", "--"):
+        return True
+    if status.status_heat not in (None, 0):
+        return True
+    if status.status_cool not in (None, 0):
+        return True
+    return False

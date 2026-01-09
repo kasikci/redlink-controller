@@ -96,6 +96,9 @@ The web UI reads/writes `config.json` and runs a background loop that enforces h
 - Heat turns on at `heat_on_below` and resets to `heat_on_below` at `heat_off_at`.
 - Cool turns on at `cool_on_above` and resets to `cool_on_above` at `cool_off_at`.
 - The loop polls at `poll_interval_seconds` and refreshes login sessions at `login_refresh_seconds`.
+- Set `control_mode` to `hysteresis` or `schedule` to choose which system is in control.
+- In `hysteresis` mode, the server re-applies holds while it is running so the schedule cannot take back control.
+- In `schedule` mode, the server cancels any active hold so the thermostat can resume its schedule.
 
 ## macOS app
 
@@ -141,6 +144,31 @@ ios_app/CheesesHVACControlDeckiOS.xcodeproj
 
 Open the project in Xcode, run the server on your Mac, and set the server URL
 in the app (gear icon). See `ios_app/README.md` for step-by-step instructions.
+
+## Multi-client (LAN access)
+
+You can run the server on one machine and connect to it from other devices on
+the same network.
+
+Server machine:
+
+```
+python -m redlink_controller server --config config.json --host 0.0.0.0
+```
+
+Find the server machine's LAN IP (macOS Wi-Fi):
+
+```
+ipconfig getifaddr en0
+```
+
+Client options:
+- Web UI: open `http://<server-ip>:8000` in a browser.
+- macOS app: launch the `.app` with `REDLINK_UI_URL` set (see `mac_app/README.md`).
+- iOS app: set the URL in the gear menu (see `ios_app/README.md`).
+
+If clients cannot connect, verify the server machine firewall allows inbound
+connections to port 8000.
 
 
 ## Schedule scaffolding

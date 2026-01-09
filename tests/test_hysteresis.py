@@ -88,8 +88,51 @@ def test_heat_idles_when_mode_stale_and_setpoint_active() -> None:
     assert action.setpoint == 68.0
 
 
-def test_hysteresis_disabled_no_action() -> None:
-    config = AppConfig(hysteresis_enabled=False)
+def test_schedule_mode_disables_hysteresis_actions() -> None:
+    config = AppConfig(
+        control_mode="schedule",
+        hysteresis_enabled=True,
+        override_schedule=True,
+        heat_on_below=68.0,
+        heat_off_at=71.0,
+        cool_on_above=76.0,
+        cool_off_at=74.0,
+    )
     state = ControllerState(mode=None)
-    action = decide_action(60.0, config, state)
+    action = decide_action(60.0, config, state, heat_setpoint=65.0)
     assert action is None
+
+
+def test_schedule_override_reapplies_last_action() -> None:
+    config = AppConfig(
+        control_mode="hysteresis",
+        heat_on_below=68.0,
+        heat_off_at=71.0,
+        cool_on_above=76.0,
+        cool_off_at=74.0,
+    )
+    state = ControllerState(mode=None, last_action="heat")
+    action = decide_action(
+        70.0, config, state, heat_setpoint=65.0, cool_setpoint=76.0
+    )
+    assert action is not None
+    assert action.kind == "heat"
+    assert action.setpoint == 71.0
+
+
+def test_schedule_override_establishes_idle_hold_in_deadband() -> None:
+    config = AppConfig(
+        control_mode="hysteresis",
+        heat_on_below=68.0,
+        heat_off_at=71.0,
+        cool_on_above=76.0,
+        cool_off_at=74.0,
+    )
+    state = ControllerState(mode=None, last_action=None)
+    action = decide_action(
+        70.0, config, state, heat_setpoint=65.0, cool_setpoint=76.0
+    )
+    assert action is not None
+    assert action.kind == "heat-idle"
+    assert action.setpoint == 68.0
+
